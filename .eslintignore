@@ -1,0 +1,9 @@
+package.json
+package-lock.json
+node_modules
+build
+dist
+public
+serviceWorker.js
+!.*.(j|t)s
+client/src/locales/**/*.js
