@@ -1,0 +1,22 @@
+{
+  "name": "weather",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "start": "ts-node index.ts",
+    "test": "npm test"
+  },
+  "keywords": [
+    "weather",
+    "openweathermap",
+    "typescript",
+    "zipcode"
+  ],
+  "author": "Mina S. Aziz",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.3"
+  }
+}
