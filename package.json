@@ -19,6 +19,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/lodash": "^4.14.141",
+    "@types/moment-timezone": "^0.5.12",
     "@types/node": "^12.7.8",
     "@typescript-eslint/eslint-plugin": "^2.3.1",
     "@typescript-eslint/parser": "^2.3.1",
@@ -33,6 +34,7 @@
   },
   "dependencies": {
     "axios": "^0.18.1",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "moment-timezone": "^0.5.26"
   }
 }
