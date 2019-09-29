@@ -1,7 +1,7 @@
 import { CategorizedArg } from '../types';
 
 export function categorizeCityArg(arg: string): CategorizedArg {
-  return arg.length >= 5 && arg.length <= 6 && !Number.isNaN(Number(arg))
+  return !Number.isNaN(Number(arg))
     ? { queryType: 'ZIP_CODE', queryValue: arg }
     : { queryType: 'CITY_NAME', queryValue: arg };
 }
