@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getWeatherResult returns weather result messages based on given cities 1`] = `
+Array [
+  Object {
+    "name": "London",
+    "timezoneOffsetInSeconds": "7200",
+    "weather": "Drizzle, 280.32 Celsius",
+  },
+  Object {
+    "name": "London",
+    "timezoneOffsetInSeconds": "7200",
+    "weather": "Drizzle, 280.32 Celsius",
+  },
+  Object {
+    "name": "London",
+    "timezoneOffsetInSeconds": "7200",
+    "weather": "Drizzle, 280.32 Celsius",
+  },
+]
+`;
