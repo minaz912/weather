@@ -1,4 +1,8 @@
-import axios, { AxiosPromise, AxiosResponse } from 'axios'
+import map from 'lodash/fp/map'
+import flow from 'lodash/fp/flow'
+import axios, { AxiosPromise, AxiosResponse, AxiosError } from 'axios'
+
+import * as args from './args'
 
 import { CategorizedArg, RequestMetadata, WeatherResult } from '../types'
 
@@ -14,9 +18,7 @@ class OpenWeatherMapAPIManager {
   })
 }
 
-export function getRequestMetadata(
-  queryMetadata: CategorizedArg
-): RequestMetadata {
+function getRequestMetadata(queryMetadata: CategorizedArg): RequestMetadata {
   const { queryType, queryValue } = queryMetadata
   if (queryType === 'ZIP_CODE') {
     return {
@@ -51,16 +53,21 @@ function getWeatherFromApi(requestMetadata: RequestMetadata): AxiosPromise {
   })
 }
 
-function getCityDetailsFromAPIResponse(
-  response: AxiosResponse
-): {
-  name: string
-  weather: string
-  timezoneOffsetInSeconds: number
-} {
+function generateWeatherMessage(
+  apiResult: AxiosResponse | AxiosError,
+  requestMetadata: RequestMetadata
+): WeatherResult {
+  if (apiResult instanceof Error) {
+    return {
+      name: requestMetadata.queryValue,
+      weather: apiResult.response.data.message,
+      timezoneOffsetInSeconds: null
+    }
+  }
+
   const {
     data: { name, weather, main, timezone }
-  } = response
+  } = apiResult
   return {
     name,
     weather: `${weather[0].main}, ${main.temp} Celsius`,
@@ -69,16 +76,21 @@ function getCityDetailsFromAPIResponse(
 }
 
 export async function getWeatherResult(
-  requestMetadata: RequestMetadata
-): Promise<WeatherResult> {
-  try {
-    const weatherApiResponse = await getWeatherFromApi(requestMetadata)
-    return getCityDetailsFromAPIResponse(weatherApiResponse)
-  } catch (err) {
-    return {
-      name: requestMetadata.queryValue,
-      weather: err.response.data.message,
-      timezoneOffsetInSeconds: null
-    }
-  }
+  cities: string[]
+): Promise<WeatherResult[]> {
+  // try {
+  const categorizedRequestMetadata = map((arg: string) =>
+    flow(
+      args.categorizeCityArg,
+      getRequestMetadata
+    )(arg)
+  )(cities)
+
+  return Promise.all(
+    categorizedRequestMetadata.map(metadata =>
+      getWeatherFromApi(metadata)
+        .then(response => generateWeatherMessage(response, metadata))
+        .catch(err => generateWeatherMessage(err, metadata))
+    )
+  )
 }

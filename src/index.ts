@@ -1,7 +1,7 @@
-import flow from 'lodash/fp/flow'
 import map from 'lodash/fp/map'
 
 import utils from './utils'
+import { WeatherResult } from './types'
 
 async function start(): Promise<void> {
   // first 2 args are irrelevant
@@ -16,27 +16,17 @@ async function start(): Promise<void> {
 
   const cities = utils.args.getArgList(args)
 
-  const categorizedRequestMetadata = map((arg: string) =>
-    flow(
-      utils.args.categorizeCityArg,
-      utils.weather.getRequestMetadata
-    )(arg)
-  )(cities)
+  const weatherDetailsForCities = await utils.weather.getWeatherResult(cities)
 
-  await Promise.all(
-    categorizedRequestMetadata.map(async reqMetadata => {
-      const weatherResult = await utils.weather.getWeatherResult(reqMetadata)
-      utils.logging.showResult(
-        weatherResult.name,
-        utils.time.getPrettyDateWithTzOffset(
-          weatherResult.timezoneOffsetInSeconds
-        ),
-        weatherResult.weather
-      )
-    })
-  )
+  map((result: WeatherResult) =>
+    utils.logging.showResult(
+      result.name,
+      utils.time.getPrettyDateWithTzOffset(result.timezoneOffsetInSeconds),
+      result.weather
+    )
+  )(weatherDetailsForCities)
 
-  console.log('Done')
+  console.log('--Done--')
   process.exit(0)
 }
 
