@@ -1,7 +1,7 @@
 import flow from 'lodash/fp/flow'
 import { CategorizedArg } from '../types'
 
-export function categorizeCityArg(arg: string): CategorizedArg {
+export function categorize(arg: string): CategorizedArg {
   return !Number.isNaN(Number(arg))
     ? { queryType: 'ZIP_CODE', queryValue: arg }
     : { queryType: 'CITY_NAME', queryValue: arg }

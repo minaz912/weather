@@ -86,7 +86,7 @@ export async function getWeatherResult(
   // try {
   const categorizedRequestMetadata = map((arg: string) =>
     flow(
-      args.categorizeCityArg,
+      args.categorize,
       getRequestMetadata
     )(arg)
   )(cities)
