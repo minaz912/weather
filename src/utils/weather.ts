@@ -4,7 +4,12 @@ import axios, { AxiosPromise, AxiosResponse, AxiosError } from 'axios'
 
 import * as args from './args'
 
-import { CategorizedArg, RequestMetadata, WeatherResult } from '../types'
+import {
+  CategorizedArg,
+  RequestMetadata,
+  WeatherResult,
+  OWMAPIResponse
+} from '../types'
 
 class OpenWeatherMapAPIManager {
   static fetcher = axios.create({
@@ -54,7 +59,7 @@ function getWeatherFromApi(requestMetadata: RequestMetadata): AxiosPromise {
 }
 
 function generateWeatherMessage(
-  apiResult: AxiosResponse | AxiosError,
+  apiResult: AxiosResponse<OWMAPIResponse> | AxiosError,
   requestMetadata: RequestMetadata
 ): WeatherResult {
   if (apiResult instanceof Error) {
@@ -89,7 +94,10 @@ export async function getWeatherResult(
   return Promise.all(
     categorizedRequestMetadata.map(metadata =>
       getWeatherFromApi(metadata)
-        .then(response => generateWeatherMessage(response, metadata))
+        .then(
+          (response: AxiosResponse<OWMAPIResponse>): WeatherResult =>
+            generateWeatherMessage(response, metadata)
+        )
         .catch(err => generateWeatherMessage(err, metadata))
     )
   )
