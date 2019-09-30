@@ -1,3 +1,4 @@
+import flow from 'lodash/fp/flow'
 import { CategorizedArg } from '../types'
 
 export function categorizeCityArg(arg: string): CategorizedArg {
@@ -6,8 +7,22 @@ export function categorizeCityArg(arg: string): CategorizedArg {
     : { queryType: 'CITY_NAME', queryValue: arg }
 }
 
-// FIXME: handle city names that include spaces
-export function parseCityArg(arg: string): string {
-  // if the arg ends in ',', discard the ','
-  return arg[arg.length - 1] === ',' ? arg.slice(0, arg.length - 1) : arg
+function join(str: string[]): string {
+  return str.join(' ')
+}
+
+function trim(str: string): string {
+  return str.trim()
+}
+
+function split(str: string): string[] {
+  return str.split(',')
+}
+
+export function getArgList(processArgs: string[]): string[] {
+  return flow(
+    join,
+    trim,
+    split
+  )(processArgs)
 }

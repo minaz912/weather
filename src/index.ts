@@ -14,13 +14,14 @@ async function start(): Promise<void> {
     process.exit(1)
   }
 
+  const cities = utils.args.getArgList(args)
+
   const categorizedRequestMetadata = map((arg: string) =>
     flow(
-      utils.args.parseCityArg,
       utils.args.categorizeCityArg,
       utils.weather.getRequestMetadata
     )(arg)
-  )(args)
+  )(cities)
 
   await Promise.all(
     categorizedRequestMetadata.map(async reqMetadata => {
