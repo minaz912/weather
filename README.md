@@ -12,3 +12,7 @@ A node script that utilizes the OpenWeatherMap API to display weather conditions
 - Pass your key as `OWM_APPID` environment variable when running the script.
   Example: `OWM_APPID=<your_key_here> npm start -- cairo, london, new york, 10005`, or run `npm run build` then `OWM_APPID=<your_key_here> node build/index.js cairo, london, new york, 10005`
 - Profit
+
+## Run the tests
+
+- Run `npm test`
