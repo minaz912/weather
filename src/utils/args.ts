@@ -8,7 +8,7 @@ export function categorize(arg: string): CategorizedArg {
 }
 
 function join(str: string[]): string {
-  return str.join(' ')
+  return str.join('')
 }
 
 function trim(str: string): string {
