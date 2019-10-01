@@ -83,7 +83,6 @@ function generateWeatherMessage(
 export async function getWeatherResult(
   cities: string[]
 ): Promise<WeatherResult[]> {
-  // try {
   const categorizedRequestMetadata = map((arg: string) =>
     flow(
       args.categorize,
