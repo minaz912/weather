@@ -1,5 +1,7 @@
 # Time and Weather Displayer
 
+![GitHub Actions](https://github.com/minaz912/weather/workflows/Node%20CI/badge.svg)
+
 ## Description
 
 A node script that utilizes the OpenWeatherMap API to display weather conditions (and local time) given a list of city/zip code queries (passed as comma-delimited command-line args).
